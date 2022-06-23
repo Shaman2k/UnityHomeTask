@@ -1353,7 +1353,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _slider: {fileID: 1370012493049071948}
-  _timeToChangeHealth: 10
+  _fillDuration: 10
 --- !u!114 &1370012493573510448
 MonoBehaviour:
   m_ObjectHideFlags: 0

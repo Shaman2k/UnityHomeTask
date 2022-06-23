@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class HealthBar : MonoBehaviour
 {
     [SerializeField] private Slider _slider;
-    [SerializeField] private float _fillDuration;
+    [SerializeField] private float _fillDuration = 10f;
 
     private Player _player;
     private Coroutine _changeHealthJob;
