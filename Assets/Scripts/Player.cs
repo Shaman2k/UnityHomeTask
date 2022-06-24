@@ -24,7 +24,6 @@ public class Player : MonoBehaviour
         HealthChanged?.Invoke(_currentHealth, _maxHealth);
     }
 
-
     public void TakeHeal(int value)
     {
         _currentHealth += value;

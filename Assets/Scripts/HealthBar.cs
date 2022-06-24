@@ -8,11 +8,8 @@ public class HealthBar : MonoBehaviour
     [SerializeField] private Slider _slider;
     [SerializeField] private float _fillDuration = 10f;
 
-    private Coroutine _changeHealthJob;
+    private Coroutine _changeHealthBarJob;
  
-
-
-
     private void OnEnable()
     {
         _player.HealthChanged += OnValueChanged;
@@ -26,13 +23,13 @@ public class HealthBar : MonoBehaviour
 
     public void OnValueChanged(int value, int maxValue)
     {
-        if (_changeHealthJob != null)
-            StopCoroutine(_changeHealthJob);
+        if (_changeHealthBarJob != null)
+            StopCoroutine(_changeHealthBarJob);
 
-        _changeHealthJob = StartCoroutine(ChangeHealth(value, maxValue));
+        _changeHealthBarJob = StartCoroutine(ChangeHealthBar(value, maxValue));
     }
 
-    private IEnumerator ChangeHealth(int value, int maxValue)
+    private IEnumerator ChangeHealthBar(int value, int maxValue)
     {
         float targetValue = (float)value / maxValue;
         float delta = Time.deltaTime/_fillDuration;
