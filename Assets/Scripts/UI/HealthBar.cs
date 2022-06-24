@@ -13,7 +13,7 @@ public class HealthBar : MonoBehaviour
 
     private void Awake()
     {
-        _player = FindObjectOfType<Player>();
+        _player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
     }
 
     private void OnEnable()
