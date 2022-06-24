@@ -4,17 +4,14 @@ using UnityEngine.UI;
 
 public class HealthBar : MonoBehaviour
 {
+    [SerializeField] private Player _player;
     [SerializeField] private Slider _slider;
     [SerializeField] private float _fillDuration = 10f;
 
-    private Player _player;
     private Coroutine _changeHealthJob;
  
 
-    private void Awake()
-    {
-        _player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-    }
+
 
     private void OnEnable()
     {

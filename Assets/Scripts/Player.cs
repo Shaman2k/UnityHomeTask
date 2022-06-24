@@ -14,9 +14,20 @@ public class Player : MonoBehaviour
         _currentHealth = _maxHealth;
     }
 
-    public void ChangeHealth(int value)
+    public void TakeDamage(int value)
     {
         _currentHealth -= value;
+
+        if (_currentHealth < 0)
+            _currentHealth = 0;
+
+        HealthChanged?.Invoke(_currentHealth, _maxHealth);
+    }
+
+
+    public void TakeHeal(int value)
+    {
+        _currentHealth += value;
 
         if (_currentHealth > _maxHealth)
             _currentHealth = _maxHealth;
