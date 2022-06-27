@@ -1,7 +1,3 @@
 using UnityEngine;
 
-
-public class Player : MonoBehaviour
-{
-
-}
+public class Player : MonoBehaviour {}
