@@ -19,6 +19,7 @@ public class AlarmSignal : MonoBehaviour
     {
         _renderer = _alarmLight.GetComponent<Renderer>();
         _defaultColor = _renderer.material.color;
+        _audioSource.volume = _minVolume;
     }
 
     private void OnEnable()
@@ -36,13 +37,12 @@ public class AlarmSignal : MonoBehaviour
     private void StartAlarm()
     {
         _renderer.material.color = _alarmColor;
-        _audioSource.volume = _minVolume;
         _audioSource.Play();
 
         if (_coroutine != null)
             StopCoroutine(_coroutine);
 
-        _coroutine = StartCoroutine(IncreaseVolume(_minVolume, _maxVolume));
+        _coroutine = StartCoroutine(ChangeVolume(_maxVolume));
     }
 
     private void StopAlarm()
@@ -52,32 +52,22 @@ public class AlarmSignal : MonoBehaviour
         if (_coroutine != null)
             StopCoroutine(_coroutine);
 
-        _coroutine = StartCoroutine(DecreaseVolume(_minVolume));
+        _coroutine = StartCoroutine(ChangeVolume(_minVolume));
     }
 
-    private IEnumerator IncreaseVolume(float startVolume, float targetVolume)
-    {
-        float currentTime = 0;
-
-        while (currentTime < _volumeChangeDuration)
-        {
-            currentTime += Time.deltaTime;
-            _audioSource.volume = Mathf.Lerp(startVolume, targetVolume, currentTime / _volumeChangeDuration);
-            yield return null;
-        }
-    }
-
-    private IEnumerator DecreaseVolume(float targetVolume)
+    private IEnumerator ChangeVolume(float targetVolume)
     {
         float currentTime = 0;
         float startVolume = _audioSource.volume;
 
-        while (currentTime < _volumeChangeDuration * startVolume)
+        while (currentTime < _volumeChangeDuration)
         {
             currentTime += Time.deltaTime;
-            _audioSource.volume = Mathf.Lerp(startVolume, targetVolume, currentTime / (_volumeChangeDuration * startVolume));
+            _audioSource.volume = Mathf.MoveTowards(startVolume, targetVolume, currentTime / _volumeChangeDuration);
             yield return null;
         }
-        _audioSource.Stop();
+
+        if(_audioSource.volume<=_minVolume)
+            _audioSource.Stop();
     }
 }
