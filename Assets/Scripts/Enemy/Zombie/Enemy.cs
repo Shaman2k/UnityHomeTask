@@ -14,7 +14,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float _timeBetweenAttack = 2f;
     [SerializeField] private float _lookRadius = 10f;
     [SerializeField] private float _rotationSpeed = 6f;
-    [SerializeField] private float _deadBodyExistTime = 10f;
+    [SerializeField] private float _deadBodyExistTime = 4f;
     private NavMeshAgent _navMeshAgent;
     private Animator _animator;
 
@@ -46,14 +46,13 @@ public class Enemy : MonoBehaviour
 
         if (_health <= 0)
          StartCoroutine(Die());
-            
     }
 
     private IEnumerator Die()
     {
         _animator.SetTrigger("Die");
         _navMeshAgent.enabled = false;
-        yield return new WaitForSeconds(4);
+        yield return new WaitForSeconds(_deadBodyExistTime);
 
         Destroy(gameObject);
     }
