@@ -9,6 +9,8 @@ public class EnemyPool : MonoBehaviour
 
     private List<GameObject> _pool = new List<GameObject>();
 
+    protected int Capacity => _capacity;
+
     protected void Initialze(GameObject prefab)
     {
         for (int i = 0; i < _capacity; i++)
@@ -26,7 +28,7 @@ public class EnemyPool : MonoBehaviour
         return result != null;
     }
 
-    public void ResetPool()
+    public void Reset()
     {
         foreach (var item in _pool)
         {

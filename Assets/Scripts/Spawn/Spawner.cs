@@ -1,8 +1,9 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Spawn : EnemyPool
+public class Spawner : EnemyPool
 {
     [SerializeField] private GameObject _spawnBlock;
     [SerializeField] private GameObject _template;
@@ -11,11 +12,14 @@ public class Spawn : EnemyPool
     private List<Transform> _spawnPoints;
     private Transform _currentSpawnPoint;
     private int _spawnPointIndex;
-    private float _elapsedTime = 0;
+    private int _spawned;
+    private Coroutine coroutine;
+
 
     private void Awake()
     {
         _spawnPoints = new List<Transform>();
+
 
         foreach (Transform spawnPoint in _spawnBlock.GetComponentInChildren<Transform>())
         {
@@ -31,16 +35,15 @@ public class Spawn : EnemyPool
     private void OnEnable()
     {
         _spawnPointIndex = 0;
+        _spawned = 0;
+
+        if (coroutine == null)
+            coroutine = StartCoroutine(SpawnEnemy());
     }
 
     private void Update()
     {
-        if (_elapsedTime >= _timeBetweenSpawn)
-        {
-            _elapsedTime = 0;
-            GetEnemy(GetSpawnPoint());
-        }
-        _elapsedTime += Time.deltaTime;
+
     }
 
     private Transform GetSpawnPoint()
@@ -60,6 +63,16 @@ public class Spawn : EnemyPool
         {
             enemy.SetActive(true);
             enemy.GetComponent<NavMeshAgent>().Warp(spawnPoint.position);
+            _spawned++;
+        }
+    }
+
+    private IEnumerator SpawnEnemy()
+    {
+        while (_spawned <= Capacity)
+        {
+            GetEnemy(GetSpawnPoint());
+            yield return new WaitForSeconds(_timeBetweenSpawn);
         }
     }
 }

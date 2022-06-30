@@ -15,10 +15,12 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float _lookRadius = 10f;
     [SerializeField] private float _rotationSpeed = 6f;
     [SerializeField] private float _deadBodyExistTime = 4f;
+
     private NavMeshAgent _navMeshAgent;
     private Animator _animator;
-
     private Player _target;
+    private string _animationSpeedState = "Speed";
+    private string _animationDeadState = "Die";
 
     public Player Target => _target;
     public int Reward => _reward;
@@ -37,7 +39,7 @@ public class Enemy : MonoBehaviour
 
     private void Update()
     {
-        _animator.SetFloat("Speed", _navMeshAgent.velocity.magnitude);
+        _animator.SetFloat(_animationSpeedState, _navMeshAgent.velocity.magnitude);
     }
 
     public void TakeDamage(int damage)
@@ -50,7 +52,7 @@ public class Enemy : MonoBehaviour
 
     private IEnumerator Die()
     {
-        _animator.SetTrigger("Die");
+        _animator.SetTrigger(_animationDeadState);
         _navMeshAgent.enabled = false;
         yield return new WaitForSeconds(_deadBodyExistTime);
 
