@@ -13,7 +13,7 @@ public class Spawner : EnemyPool
     private Transform _currentSpawnPoint;
     private int _spawnPointIndex;
     private int _spawned;
-    private Coroutine coroutine;
+    private Coroutine _coroutine;
 
 
     private void Awake()
@@ -37,8 +37,8 @@ public class Spawner : EnemyPool
         _spawnPointIndex = 0;
         _spawned = 0;
 
-        if (coroutine == null)
-            coroutine = StartCoroutine(SpawnEnemy());
+        if (_coroutine == null)
+            _coroutine = StartCoroutine(SpawnEnemy());
     }
 
     private void Update()
@@ -57,7 +57,7 @@ public class Spawner : EnemyPool
         return _currentSpawnPoint;
     }
 
-    private void GetEnemy(Transform spawnPoint)
+    private void ActivateEnemy(Transform spawnPoint)
     {
         if (TryGetObject(out GameObject enemy))
         {
@@ -71,7 +71,7 @@ public class Spawner : EnemyPool
     {
         while (_spawned <= Capacity)
         {
-            GetEnemy(GetSpawnPoint());
+            ActivateEnemy(GetSpawnPoint());
             yield return new WaitForSeconds(_timeBetweenSpawn);
         }
     }
